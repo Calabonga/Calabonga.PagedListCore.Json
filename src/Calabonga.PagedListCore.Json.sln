@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.PagedListCore.Json", "Calabonga.PagedListCore.Json.csproj", "{7F8995FC-983B-4168-918B-F80837F4B28D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{A2A5DBE9-D99E-456D-90ED-1109BD1E8657}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\FUNDING.yml = ..\.github\FUNDING.yml
+		..\LICENSE = ..\LICENSE
+		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F8995FC-983B-4168-918B-F80837F4B28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F8995FC-983B-4168-918B-F80837F4B28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8995FC-983B-4168-918B-F80837F4B28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F8995FC-983B-4168-918B-F80837F4B28D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CA94EB9-2F32-4C9E-AFCF-F33C25CBC8C6}
+	EndGlobalSection
+EndGlobal
