@@ -20,13 +20,12 @@ namespace Calabonga.PagedListCore.Json
 
             if (reader.TokenType == JsonTokenType.EndObject)
             {
-                return new PagedList<T>(new List<T>(), 0, 10, 0, 20);
+                return new PagedList<T>(new List<T>(), 0, 10, 10);
             }
 
             var pageIndex = 0;
             var pageSize = 20;
             var totalCount = 0;
-            var indexFrom = 0;
 
             var list = new List<T>();
 
@@ -57,10 +56,6 @@ namespace Calabonga.PagedListCore.Json
                             totalCount = reader.GetInt32();
                             break;
 
-                        case "indexFrom":
-                            indexFrom = reader.GetInt32();
-                            break;
-
                         case "items":
 
                             if (reader.TokenType != JsonTokenType.StartArray)
@@ -87,7 +82,7 @@ namespace Calabonga.PagedListCore.Json
                 }
             }
 
-            var result = new PagedList<T>(list, pageIndex, pageSize, indexFrom, totalCount);
+            var result = new PagedList<T>(list, pageIndex, pageSize, totalCount);
 
             return result;
         }
