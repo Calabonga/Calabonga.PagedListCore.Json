@@ -33,4 +33,7 @@ jobs:
         run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --output ${{ github.workspace }}/nupkgs
 
       - name: Publish NuGet Package
-        run: dotnet nuget push "${{ github.workspace }}/nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        shell: pwsh
+        run: |
+          $package = Get-ChildItem -Path "${{ github.workspace }}/nupkgs" -Filter *.nupkg | Select-Object -First 1
+          dotnet nuget push $package.FullName --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
