@@ -10,7 +10,7 @@
 - Тестирование:
   - Если нет проекта с Unit-тестами, создай его в `src/Calabonga.PagedListCore.Json.Tests`.
   - Если нет Unit-тестов, добавь их. Если есть, убедись, что они проходят.
-  - `dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx -c Release` — после каждой реализации и обязательно перед фиксацией изменений. Если тесты падают, исправь их до фиксации. Если тесты падают после фиксации, исправь их в отдельной ветке и создай PR. 
+  - `dotnet test src/Calabonga.PagedListCore.Json.slnx -c Release` — после каждой реализации и обязательно перед фиксацией изменений. Если тесты падают, исправь их до фиксации. Если тесты падают после фиксации, исправь их в отдельной ветке и создай PR. 
 - Версию пакета (`<Version>` в `Calabonga.PagedListCore.Json.csproj`) и changelog в `README.md` обновляй в том же PR, что и функциональные изменения.
 - CI (`.github/workflows/main.yml`) на push в `main`: restore → build → **test** → pack → push в nuget.org. Тесты останавливают публикацию: упавший `dotnet test` останавливает пакет.
 - Тестовый проект (`IsPackable=false`) в NuGet-пакет не входит — `dotnet pack` по решению собирает только пакет библиотеки.

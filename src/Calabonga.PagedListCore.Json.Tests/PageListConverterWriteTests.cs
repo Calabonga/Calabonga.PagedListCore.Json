@@ -3,7 +3,7 @@ using Calabonga.PagedListCore;
 
 namespace Calabonga.PagedListCore.Json.Tests;
 
-public class PageListConverterWriteTests
+public sealed class PageListConverterWriteTests
 {
     [Fact]
     public void Write_IsNotSupported()
@@ -13,7 +13,7 @@ public class PageListConverterWriteTests
 
         IPagedList<int> paged = new PagedList<int>(new[] { 1, 2, 3 }, 1, 10, 3);
 
-        Assert.Throws<NotImplementedException>(
+        Assert.Throws<NotSupportedException>(
             () => JsonSerializer.Serialize(paged, options));
     }
 }

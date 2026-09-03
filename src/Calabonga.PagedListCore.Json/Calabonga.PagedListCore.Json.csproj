@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
-		<Version>3.0.1</Version>
+		<Version>3.0.2</Version>
 		<Company>Calabonga SOFT</Company>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Calabonga.PagedListCore.Json</Title>
@@ -20,21 +20,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="_ReSharper.Caches\**" />
-	  <EmbeddedResource Remove="_ReSharper.Caches\**" />
-	  <None Remove="_ReSharper.Caches\**" />
-	</ItemGroup>
-
-	<!-- The test project lives under src/; keep its sources out of the library build. -->
-	<ItemGroup>
-	  <Compile Remove="Calabonga.PagedListCore.Json.Tests\**" />
-	  <EmbeddedResource Remove="Calabonga.PagedListCore.Json.Tests\**" />
-	  <None Remove="Calabonga.PagedListCore.Json.Tests\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="Calabonga.PagedListCore" Version="3.0.0" />
-	  <PackageReference Include="System.Net.Http.Json" Version="10.0.11" />
+	  <PackageReference Include="System.Text.Json" Version="10.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>

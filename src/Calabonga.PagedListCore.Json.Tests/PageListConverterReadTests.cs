@@ -3,7 +3,7 @@ using Calabonga.PagedListCore;
 
 namespace Calabonga.PagedListCore.Json.Tests;
 
-public class PageListConverterReadTests
+public sealed class PageListConverterReadTests
 {
     private static JsonSerializerOptions OptionsFor<T>()
     {
