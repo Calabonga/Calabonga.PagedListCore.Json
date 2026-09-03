@@ -8,21 +8,28 @@
 
 - TFM: `netstandard2.1`, `LangVersion=latest` (нужен для file-scoped namespaces и др.
   современного синтаксиса — netstandard2.1 по умолчанию даёт C# 8.0), `Nullable` включён.
-- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json.csproj` (сейчас `3.0.0`).
+- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json.csproj`.
 - `GeneratePackageOnBuild=True` — при обычной сборке уже собирается `.nupkg`.
 
 ## Структура
 
-- `src/Calabonga.PagedListCore.Json.slnx` — решение (новый формат `.slnx`), один проект.
-- `src/Calabonga.PagedListCore.Json.csproj` — проект библиотеки.
+- `src/Calabonga.PagedListCore.Json.slnx` — решение с **одним** проектом библиотеки;
+  используется для `dotnet pack` (в пакет попадает только библиотека).
+- `src/Calabonga.PagedListCore.Json.Tests.slnx` — решение с библиотекой + проектом тестов;
+  используется для `dotnet build` / `dotnet test` в CI.
+- `src/Calabonga.PagedListCore.Json.csproj` — проект библиотеки. Каталог проекта — `src/`, поэтому
+  подпапка тестов исключается явными `<Compile Remove="Calabonga.PagedListCore.Json.Tests\**" />`.
 - `src/PageListConverter.cs` — единственный класс `PageListConverter<T> : JsonConverter<IPagedList<T>>`.
   - `Read(...)` разбирает объект с полями `pageIndex`, `pageSize`, `totalCount`, `items`
     и возвращает `PagedList<T>`.
   - `Write(...)` намеренно бросает `NotImplementedException` — сериализация не поддерживается.
+- `src/Calabonga.PagedListCore.Json.Tests/` — xUnit-проект (`net10.0`, `IsPackable=false`),
+  `ProjectReference` на библиотеку. Тесты покрывают `PageListConverter<T>.Read/Write`.
 - `src/README.md` — уходит в пакет как `PackageReadmeFile`.
 - `README.md` (корень) — публичный changelog проекта.
 - `.github/workflows/main.yml` — CI: restore → build → **test** → pack → push в nuget.org
-  при push в `main` (runner `windows-latest`, .NET `10.0.x`).
+  при push в `main` (runner `windows-latest`, .NET `10.0.x`). Упавший `dotnet test` останавливает
+  публикацию пакета.
 
 ## Команды
 
@@ -32,8 +39,7 @@
 dotnet build src/Calabonga.PagedListCore.Json.slnx -c Release
 ```
 
-Тесты (проект тестов пока отсутствует — см. `workflow.md`, его нужно создать в
-`src/Calabonga.PagedListCore.Json.Tests`):
+Тесты:
 
 ```bash
 dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx -c Release
@@ -55,4 +61,7 @@ dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx -c Release
 - Имя типа — `PageListConverter` (без «d»), файл `PageListConverter.cs`; при упоминании в коде
   соблюдай это написание.
 - Changelog в корневом `README.md` держи синхронным с `<Version>` — обновляй при выпуске.
-- Юнит-тестов нет; CI-шаг `test` их подразумевает — упавший `dotnet test` останавливает публикацию.
+- `PagedList<T>` использует 1-based индекс страницы и отклоняет значение < 1. Поэтому `Read(...)`
+  при отсутствии `pageIndex` в JSON подставляет `1`; явный `pageIndex` < 1 считается некорректным
+  входом и пробрасывает `ArgumentOutOfRangeException` (Fail Fast).
+- Ключи в `Read(...)` регистрозависимы (`items`, а не `Items`) и не зависят от `PropertyNamingPolicy`.

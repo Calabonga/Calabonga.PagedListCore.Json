@@ -21,13 +21,16 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Install dependencies
-        run: dotnet restore src/Calabonga.PagedListCore.Json.slnx
+        run: dotnet restore src/Calabonga.PagedListCore.Json.Tests.slnx
 
       - name: Build
-        run: dotnet build src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-restore
+        run: dotnet build src/Calabonga.PagedListCore.Json.Tests.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx --configuration Release --no-build --verbosity normal
 
       - name: Build the NuGet package
-        run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --output ${{env.DOTNET_ROOT}}\Package
+        run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --output ${{env.DOTNET_ROOT}}\Package
 
       - name: Publish NuGet Package
         run: dotnet nuget push ${{env.DOTNET_ROOT}}\Package\*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
