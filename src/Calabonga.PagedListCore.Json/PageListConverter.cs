@@ -6,10 +6,11 @@ using System.Text.Json.Serialization;
 namespace Calabonga.PagedListCore.Json;
 
 /// <summary>
-/// Custom PagedList converter for serialization
+/// Custom <see cref="IPagedList{T}"/> converter for <see cref="System.Text.Json"/> deserialization.
+/// Serialization is not supported.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class PageListConverter<T> : JsonConverter<IPagedList<T>>
+/// <typeparam name="T">Type of the paged item.</typeparam>
+public sealed class PageListConverter<T> : JsonConverter<IPagedList<T>>
 {
     public override IPagedList<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -90,7 +91,5 @@ public class PageListConverter<T> : JsonConverter<IPagedList<T>>
     }
 
     public override void Write(Utf8JsonWriter writer, IPagedList<T> value, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
+        => throw new NotSupportedException($"{nameof(PageListConverter<T>)} supports deserialization only.");
 }

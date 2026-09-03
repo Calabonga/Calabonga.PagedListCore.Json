@@ -8,24 +8,25 @@
 
 - TFM: `netstandard2.1`, `LangVersion=latest` (нужен для file-scoped namespaces и др.
   современного синтаксиса — netstandard2.1 по умолчанию даёт C# 8.0), `Nullable` включён.
-- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json.csproj`.
+- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json/Calabonga.PagedListCore.Json.csproj`.
 - `GeneratePackageOnBuild=True` — при обычной сборке уже собирается `.nupkg`.
 
 ## Структура
 
-- `src/Calabonga.PagedListCore.Json.slnx` — решение с **одним** проектом библиотеки;
-  используется для `dotnet pack` (в пакет попадает только библиотека).
-- `src/Calabonga.PagedListCore.Json.Tests.slnx` — решение с библиотекой + проектом тестов;
-  используется для `dotnet build` / `dotnet test` в CI.
-- `src/Calabonga.PagedListCore.Json.csproj` — проект библиотеки. Каталог проекта — `src/`, поэтому
-  подпапка тестов исключается явными `<Compile Remove="Calabonga.PagedListCore.Json.Tests\**" />`.
-- `src/PageListConverter.cs` — единственный класс `PageListConverter<T> : JsonConverter<IPagedList<T>>`.
-  - `Read(...)` разбирает объект с полями `pageIndex`, `pageSize`, `totalCount`, `items`
-    и возвращает `PagedList<T>`.
-  - `Write(...)` намеренно бросает `NotImplementedException` — сериализация не поддерживается.
+Всё, что связано с проектами и решением, лежит в `src/`. Один `.slnx`, два проекта.
+
+- `src/Calabonga.PagedListCore.Json.slnx` — единственное решение: библиотека + тесты.
+  Для `dotnet pack` по этому решению в пакет попадает только библиотека — у тестового
+  проекта `IsPackable=false`.
+- `src/Calabonga.PagedListCore.Json/` — проект библиотеки в собственном каталоге (без соседних
+  `.cs`, поэтому `<Compile Remove>`-костыли не нужны).
+  - `PageListConverter.cs` — единственный класс `sealed PageListConverter<T> : JsonConverter<IPagedList<T>>`.
+    - `Read(...)` разбирает объект с полями `pageIndex`, `pageSize`, `totalCount`, `items`
+      и возвращает `PagedList<T>`.
+    - `Write(...)` намеренно бросает `NotSupportedException` — сериализация не поддерживается.
+  - `README.md` — уходит в пакет как `PackageReadmeFile`; `logo.png` — `PackageIcon`.
 - `src/Calabonga.PagedListCore.Json.Tests/` — xUnit-проект (`net10.0`, `IsPackable=false`),
   `ProjectReference` на библиотеку. Тесты покрывают `PageListConverter<T>.Read/Write`.
-- `src/README.md` — уходит в пакет как `PackageReadmeFile`.
 - `README.md` (корень) — публичный changelog проекта.
 - `.github/workflows/main.yml` — CI: restore → build → **test** → pack → push в nuget.org
   при push в `main` (runner `windows-latest`, .NET `10.0.x`). Упавший `dotnet test` останавливает
@@ -42,7 +43,7 @@ dotnet build src/Calabonga.PagedListCore.Json.slnx -c Release
 Тесты:
 
 ```bash
-dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx -c Release
+dotnet test src/Calabonga.PagedListCore.Json.slnx -c Release
 ```
 
 ## Правила

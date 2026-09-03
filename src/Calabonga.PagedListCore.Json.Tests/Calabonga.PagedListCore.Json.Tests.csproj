@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Calabonga.PagedListCore.Json.csproj" />
+    <ProjectReference Include="..\Calabonga.PagedListCore.Json\Calabonga.PagedListCore.Json.csproj" />
   </ItemGroup>
 
 </Project>

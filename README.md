@@ -2,6 +2,20 @@
 
 Extension for package `Calabonga.PagedListCore` that is implementation of pagination for .NET Core (netstandard2.1). Nuget [Calabonga.PagedListCore.Json](https://www.nuget.org/packages/Calabonga.PagedListCore.Json)
 
+## v3.0.2
+
+* Replaced dependency `System.Net.Http.Json` with a direct `System.Text.Json` `10.0.11`
+  reference — the library only needs `System.Text.Json`, which `System.Net.Http.Json`
+  was merely pulling in transitively
+* Repository layout: each project now sits in its own folder under `src/` —
+  `src/Calabonga.PagedListCore.Json/` and `src/Calabonga.PagedListCore.Json.Tests/` — under a
+  single solution `src/Calabonga.PagedListCore.Json.slnx` (both projects; only the library
+  packs, the test project is `IsPackable=false`). The `<Compile Remove="...Tests/**">`
+  workaround in the library project is gone
+* `PageListConverter<T>` is now `sealed`; `Write` throws `NotSupportedException` instead of
+  `NotImplementedException`
+* Removed stray `favicon.ico` from the package project folder
+
 ## v3.0.1
 
 * Fixed: `PageListConverter<T>.Read` threw `ArgumentOutOfRangeException` when `pageIndex` was

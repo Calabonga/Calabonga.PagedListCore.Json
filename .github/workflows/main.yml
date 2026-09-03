@@ -21,13 +21,13 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Install dependencies
-        run: dotnet restore src/Calabonga.PagedListCore.Json.Tests.slnx
+        run: dotnet restore src/Calabonga.PagedListCore.Json.slnx
 
       - name: Build
-        run: dotnet build src/Calabonga.PagedListCore.Json.Tests.slnx --configuration Release --no-restore
+        run: dotnet build src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx --configuration Release --no-build --verbosity normal
+        run: dotnet test src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --verbosity normal
 
       - name: Build the NuGet package
         run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --output ${{ github.workspace }}/nupkgs
