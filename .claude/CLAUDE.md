@@ -8,7 +8,7 @@
 
 - TFM: `netstandard2.1`, `LangVersion=latest` (нужен для file-scoped namespaces и др.
   современного синтаксиса — netstandard2.1 по умолчанию даёт C# 8.0), `Nullable` включён.
-- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json.csproj` (сейчас `2.0.0`).
+- Версия пакета задаётся в `<Version>` в `src/Calabonga.PagedListCore.Json.csproj` (сейчас `3.0.0`).
 - `GeneratePackageOnBuild=True` — при обычной сборке уже собирается `.nupkg`.
 
 ## Структура
@@ -54,6 +54,5 @@ dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx -c Release
 
 - Имя типа — `PageListConverter` (без «d»), файл `PageListConverter.cs`; при упоминании в коде
   соблюдай это написание.
-- Changelog в корневом `README.md` отстаёт от `<Version>` (в нём только `v1.0.0`) — обновляй при
-  выпуске.
+- Changelog в корневом `README.md` держи синхронным с `<Version>` — обновляй при выпуске.
 - Юнит-тестов нет; CI-шаг `test` их подразумевает — упавший `dotnet test` останавливает публикацию.
