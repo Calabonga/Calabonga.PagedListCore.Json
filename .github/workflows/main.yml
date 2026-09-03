@@ -30,7 +30,7 @@ jobs:
         run: dotnet test src/Calabonga.PagedListCore.Json.Tests.slnx --configuration Release --no-build --verbosity normal
 
       - name: Build the NuGet package
-        run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --output ${{env.DOTNET_ROOT}}\Package
+        run: dotnet pack src/Calabonga.PagedListCore.Json.slnx --configuration Release --no-build --output ${{ github.workspace }}/nupkgs
 
       - name: Publish NuGet Package
-        run: dotnet nuget push ${{env.DOTNET_ROOT}}\Package\*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "${{ github.workspace }}/nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
