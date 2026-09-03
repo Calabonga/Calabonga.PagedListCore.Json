@@ -25,6 +25,13 @@
 	  <None Remove="_ReSharper.Caches\**" />
 	</ItemGroup>
 
+	<!-- The test project lives under src/; keep its sources out of the library build. -->
+	<ItemGroup>
+	  <Compile Remove="Calabonga.PagedListCore.Json.Tests\**" />
+	  <EmbeddedResource Remove="Calabonga.PagedListCore.Json.Tests\**" />
+	  <None Remove="Calabonga.PagedListCore.Json.Tests\**" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <PackageReference Include="Calabonga.PagedListCore" Version="3.0.0" />
 	  <PackageReference Include="System.Net.Http.Json" Version="10.0.11" />
