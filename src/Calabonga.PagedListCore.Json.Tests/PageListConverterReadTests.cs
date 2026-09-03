@@ -221,13 +221,30 @@ public class PageListConverterReadTests
     public void Read_Throws_WhenItemsIsNotAnArray(string json)
         => Assert.Throws<JsonException>(() => Deserialize<int>(json));
 
-    [Theory]
-    [InlineData("""{ "pageSize": 10, "totalCount": 25, "items": [1] }""")] // pageIndex omitted -> defaults to 0
-    [InlineData("""{ "pageIndex": 0, "pageSize": 10, "totalCount": 25, "items": [1] }""")]
-    public void Read_Throws_WhenResultingPageIndexIsLessThanOne_KnownLimitation(string json)
+    [Fact]
+    public void Read_DefaultsPageIndexToOne_WhenOmitted()
     {
-        // The converter defaults "pageIndex" to 0, but PagedList<T> requires a 1-based page index.
-        // Documented here so a change to either side is caught.
+        // PagedList<T> is 1-based and rejects an index below 1, so an absent "pageIndex"
+        // must fall back to the first page.
+        const string json = """{ "pageSize": 10, "totalCount": 25, "items": [1] }""";
+
+        var result = Deserialize<int>(json)!;
+
+        Assert.Equal(1, result.PageIndex);
+        Assert.Equal(10, result.PageSize);
+        Assert.Equal(25, result.TotalCount);
+        Assert.False(result.HasPreviousPage);
+        Assert.True(result.HasNextPage);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void Read_Throws_WhenPageIndexIsExplicitlyLessThanOne(int pageIndex)
+    {
+        // An explicit out-of-range value is malformed input: fail fast rather than silently coerce it.
+        var json = $$"""{ "pageIndex": {{pageIndex}}, "pageSize": 10, "totalCount": 25, "items": [1] }""";
+
         Assert.Throws<ArgumentOutOfRangeException>(() => Deserialize<int>(json));
     }
 }

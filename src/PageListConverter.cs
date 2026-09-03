@@ -20,10 +20,12 @@ public class PageListConverter<T> : JsonConverter<IPagedList<T>>
 
         if (reader.TokenType == JsonTokenType.EndObject)
         {
-            return new PagedList<T>(new List<T>(), 0, 10, 10);
+            return new PagedList<T>(new List<T>(), 1, 10, 10);
         }
 
-        var pageIndex = 0;
+        // PagedList<T> uses a 1-based page index and rejects values below 1,
+        // so an absent "pageIndex" has to fall back to the first page, not 0.
+        var pageIndex = 1;
         var pageSize = 20;
         var totalCount = 0;
 
